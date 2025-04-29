@@ -1,5 +1,9 @@
 import React, { useId } from 'react'
 
+// Use forwardRef to allow parent components to access the internal <input> element : 
+
+// wrapping Input component in forwardRef so that a parent component can access the <input> directly 
+// — for things like focusing, clearing, etc.
 
 const Input = React.forwardRef(
     function Input({
@@ -8,7 +12,7 @@ const Input = React.forwardRef(
         className = "",
         ...prop
     }, ref) {
-        const id = useId()
+        const id = useId() // this Generates a unique ID for label-input linking
         return (
             <div className='w-full '>
                 {label && <label
