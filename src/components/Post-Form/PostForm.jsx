@@ -114,7 +114,7 @@ const PostForm = ({ post }) => {
                         type="file"
                         className="mb-4"
                         accept = "image/png image/jpg image/jpeg, image/gif"
-                        {...register("image"),{ required:!post}}
+                        {...register("image",{ required:!post})}
                     />
                     {post && (
                         <div className='w-full mb-4'>

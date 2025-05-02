@@ -4,7 +4,7 @@ import { login as authLogin } from '../store/authSlice'
 import { Button, Input, Logo } from './index.js'
 import { useDispatch } from 'react-redux'
 import authService from '../appWrite/auth.js'
-import { set, useForm } from 'react-hook-form'
+import {useForm } from 'react-hook-form'
 
 function Login() {
 
@@ -37,6 +37,7 @@ function Login() {
             const session = await authService.login(data)
             if (session) {
                 const userData = await authService.getCurrentUser()
+                console.log("just before dispatching userData from authService : ",userData);
                 if (userData) {
                     dispatch(authLogin(userData))
                 }
@@ -44,8 +45,13 @@ function Login() {
             }
         } catch (error) {
             setError(error.message)
+            console.log("here is the error cought");
+            
         }
     }
+
+    console.log("inside LOGIN COMPONENt");
+    
 
     return (
         <div
@@ -90,9 +96,8 @@ function Login() {
                             {...register("email", {
                                 required: true,
                                 validate: {
-                                    matchPatter: (value) => {
+                                    matchPattern: (value) => 
                                         /^\S+@\S+\.\S+$/.test(value) || "Enter a valid Email ID"
-                                    }
                                 }
                             })}
                         // if we don't spread the register then it will get overwritten by some other input field where register has been used
@@ -107,10 +112,9 @@ function Login() {
                                 required: true
                             })}
                         />
-                        <Button
-                            children="Sign in"
-                            type="submit"
-                        />
+                        <Button type="submit">
+                            Sign in
+                        </Button>
                     </div>
 
 

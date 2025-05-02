@@ -38,7 +38,9 @@ export class AuthService {
 
     async getCurrentUser(){
         try{
-            return await account.get();
+            const user = await this.account.get();
+            // console.log("user returned from get method from appWrite : ",user);
+            return user
         }catch(e){
             console.error(e);
         }
@@ -47,7 +49,7 @@ export class AuthService {
 
     async logout () {
         try{
-            return await account.deleteSessions();
+            return await this.account.deleteSessions();
         }catch(e){
             console.error(e);
         }
