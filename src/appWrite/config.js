@@ -16,26 +16,26 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost ({title,slug,content, featuresImage, status, userId}){
+    async createPost ({title,slug,content, featuredImage, status, userId}){
         try{
-            return await databases.createDocument(
+            return await this.databases.createDocument(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
                 slug,
-                {title,content,featuresImage,status,userId}
+                {title,content,featuredImage,status,userId}
             )
         }catch(e){
             console.error(e);            
             return false
         }
     }
-    async updatePost (slug,{title,content, featuresImage, status}){
+    async updatePost (slug,{title,content, featuredImage, status}){
         try{
-            return await databases.updateDocument(
+            return await this.databases.updateDocument(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
                 slug,
-                {title,content,featuresImage,status}
+                {title,content,featuredImage,status}
             )
         }catch(e){
             console.error(e);  
@@ -44,7 +44,7 @@ export class Service{
     }
     async deletePost (slug){
         try{
-            await databases.deleteDocument(
+            await this.databases.deleteDocument(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
                 slug
@@ -57,7 +57,7 @@ export class Service{
     }
     async getPost (slug) {
         try{
-            return await databases.getDocument(
+            return await this.databases.getDocument(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
                 slug

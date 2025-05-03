@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import appWriteService from "../appWrite/config"
 import parse from 'html-react-parser'
 import { Container, Button } from "../components/index"
@@ -23,6 +23,8 @@ const Post = () => {
         } else navigate("/")
     }, [slug, navigate])
 
+    console.log("post in POST.JSX : ",post);
+    
 
     const deletePost = () => {
         appWriteService.deletePost(post.$id).then((status) => {

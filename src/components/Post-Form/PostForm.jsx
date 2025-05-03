@@ -11,19 +11,33 @@ const PostForm = ({ post }) => {
 
     const userData = useSelector(state => state.auth.userData)
 
+    console.log("post in post form : ",post);
+    
+
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || '',
-            slug: post?.slug || '',
+            slug: post?.$id || '',
             content: post?.content || '',
             status: post?.status || 'active',
-
         }
     })
 
     const submitForm = async (data) => {
         if (post) {
-            const file = data.image[0] ? appWriteService.uploadFile(data.image[0]) : null
+            let file = null;
+            if (data.image[0]) {
+                try {
+                    // Wait for the promise to resolve
+                    console.log("data image[0] : ",data.image[0]);
+                    
+                    file = await appWriteService.uploadFile(data.image[0]);
+                    console.log("WHOLE FILE : returned from upload file method : ", file);
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                    return; // stop execution if file upload fails
+                }
+            }
 
             if (file) {
                 appWriteService.deleteFile(post.featuredImage) // if user has uploaded a file then this will delete the older image
@@ -40,10 +54,23 @@ const PostForm = ({ post }) => {
             }
         }
         else {
-            const file = data.image[0] ? appWriteService.uploadFile(data.image[0]) : null
+            let file = null;
 
+            if (data.image[0]) {
+                try {
+                    // Wait for the promise to resolve
+                    file = await appWriteService.uploadFile(data.image[0]);
+                    console.log("WHOLE FILE : returned from upload file method : ", file);
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                    return; // stop execution if file upload fails
+                }
+            }
+            
             if (file) {
                 const fileId = file.$id
+                console.log("file id here : ",fileId);
+                
                 data.featuredImage = fileId
                 const dbPost = await appWriteService.createPost({
                     ...data,
