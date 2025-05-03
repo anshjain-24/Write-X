@@ -21,8 +21,9 @@ const Signup = () => {
             const newUserData = await authService.createAccount(data)
             if (newUserData) {
                 const userData = await authService.getCurrentUser()
+                console.log("userData in signup component : ",userData);
                 if (userData) {
-                    dispatch(login(userData))
+                    dispatch(login({userData}))
                     navigate("/")
                 }
             }

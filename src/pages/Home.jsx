@@ -15,7 +15,12 @@ const Home = () => {
                 setPosts(posts.documents)
             }
         })
-    })
+        if(!authStatus){
+            setPosts([])
+        }
+    },[authStatus])
+    
+    console.log("posts in home page : ",posts);
 
     if(posts.length===0){
         return (
